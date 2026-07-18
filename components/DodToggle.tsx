@@ -10,7 +10,12 @@ export default function DodToggle({ weekId, done }: { weekId: string; done: bool
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ weekId, done: e.target.checked }),
     })
-    if (res.ok) router.refresh()
+    if (!res.ok) {
+      const body = await res.json().catch(() => ({}))
+      alert(body.error ?? 'failed to save')
+      return
+    }
+    router.refresh()
   }
 
   return (
