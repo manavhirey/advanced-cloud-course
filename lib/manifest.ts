@@ -15,7 +15,7 @@ export function weekIdFromFile(fileName: string): string {
   return m[1]
 }
 
-const TASK_RE = /^\s*-\s\[[ xX]\]\s+(.*)$/
+const TASK_RE = /^\s*[-*+]\s+\[[ xX]\]\s+(.*)$/
 
 export function extractSection(md: string, heading: string): string | null {
   const lines = md.split('\n')

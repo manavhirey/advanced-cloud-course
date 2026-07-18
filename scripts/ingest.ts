@@ -2,8 +2,12 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { mergeManifest, orphanedProgressKeys, parseWeekFile } from '../lib/manifest'
 import { readJson, writeJsonAtomic } from '../lib/fsjson'
+import { renderMarkdown } from '../lib/markdown'
 import { contentDir, manifestPath, progressPath } from '../lib/paths'
 import type { Manifest, ManifestItem, Progress } from '../lib/types'
+
+// Same checkbox shape as lib/markdown.ts CHECKBOX_RE — used only to count, not to render.
+const RENDERED_CHECKBOX_RE = /<input (?:checked="" )?disabled="" type="checkbox">/g
 
 export function runIngest(srcDir: string): { weeks: number; items: number; orphans: ManifestItem[] } {
   const weeksDir = path.join(srcDir, 'weeks')
@@ -18,7 +22,14 @@ export function runIngest(srcDir: string): { weeks: number; items: number; orpha
   const weeks = weekFiles.map((f, i) => {
     const md = fs.readFileSync(path.join(weeksDir, f), 'utf8')
     fs.copyFileSync(path.join(weeksDir, f), path.join(contentDir(), 'weeks', f))
-    return parseWeekFile(f, md, i)
+    const week = parseWeekFile(f, md, i)
+    const renderedCount = (renderMarkdown(md).match(RENDERED_CHECKBOX_RE) ?? []).length
+    if (renderedCount !== week.items.length) {
+      throw new Error(
+        `checklist alignment mismatch in ${f}: parser found ${week.items.length} task item(s) but renderer produced ${renderedCount} checkbox(es)`,
+      )
+    }
+    return week
   })
 
   const next: Manifest = {

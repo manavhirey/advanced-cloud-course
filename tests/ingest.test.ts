@@ -52,4 +52,11 @@ describe('runIngest', () => {
   it('throws when the source is missing', () => {
     expect(() => runIngest(path.join(src, 'nope'))).toThrow(/not found/i)
   })
+  it('throws an alignment error when a task-looking line sits inside a code fence', () => {
+    fs.writeFileSync(
+      path.join(src, 'weeks', 'week-02-fenced.md'),
+      '# Week 2\n\n```\n- [ ] not a real task, just an example in a code fence\n```\n',
+    )
+    expect(() => runIngest(src)).toThrow(/week-02-fenced\.md/)
+  })
 })

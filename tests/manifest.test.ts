@@ -40,6 +40,20 @@ describe('parseWeekFile', () => {
   })
 })
 
+describe('parseWeekFile task markers', () => {
+  it('captures star and plus bullet task markers, matching marked task-list rendering', () => {
+    const md = `# Week 6
+
+## Build
+
+* [ ] star item
++ [ ] plus item
+`
+    const week = parseWeekFile('week-06-eks.md', md, 6)
+    expect(week.items.map(i => i.text)).toEqual(['star item', 'plus item'])
+  })
+})
+
 describe('weekIdFromFile', () => {
   it('rejects unexpected names', () => {
     expect(() => weekIdFromFile('notes.md')).toThrow()
