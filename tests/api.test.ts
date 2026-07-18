@@ -71,6 +71,7 @@ describe('addSession', () => {
   it('refuses to overwrite a corrupt sessions file', () => {
     fs.writeFileSync(sessionsPath(), '{ nope')
     expect(addSession({ minutes: 30 }).status).toBe(409)
+    expect(fs.readFileSync(sessionsPath(), 'utf8')).toBe('{ nope')
   })
 })
 
@@ -98,5 +99,13 @@ describe('weekStatus', () => {
     expect(weekStatus(week, all)).toBe('done')
     const noDod: Progress = { ...all, weeks: {} }
     expect(weekStatus(week, noDod)).toBe('inProgress')
+  })
+  it('returns done when dod is null and all items are done', () => {
+    const weekWithNullDod: ManifestWeek = { ...week, dod: null }
+    const progress: Progress = {
+      items: { 'week-00:0:aaaaaaaa': { done: true, at: 'x' }, 'week-00:1:bbbbbbbb': { done: true, at: 'x' } },
+      weeks: {},
+    }
+    expect(weekStatus(weekWithNullDod, progress)).toBe('done')
   })
 })
