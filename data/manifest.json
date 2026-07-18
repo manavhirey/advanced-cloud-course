@@ -1,0 +1,774 @@
+{
+  "generatedAt": "2026-07-18T04:10:15.968Z",
+  "weeks": [
+    {
+      "id": "week-00",
+      "title": "Week 0 — Onboarding: Accounts, Tooling, DNS",
+      "file": "week-00-setup.md",
+      "order": 0,
+      "items": [
+        {
+          "id": "week-00:0:6e0f749c",
+          "weekId": "week-00",
+          "index": 0,
+          "text": "GitHub + GitHub Student Developer Pack; GitHub **Teams** plan (needed for a private org later)"
+        },
+        {
+          "id": "week-00:1:fc8dacb5",
+          "weekId": "week-00",
+          "index": 1,
+          "text": "AWS account (this becomes the `root` org account in Week 2)"
+        },
+        {
+          "id": "week-00:2:5bb1d2e1",
+          "weekId": "week-00",
+          "index": 2,
+          "text": "GCP account (light use; free tier fine)"
+        },
+        {
+          "id": "week-00:3:032d2613",
+          "weekId": "week-00",
+          "index": 3,
+          "text": "Docker Hub **Pro** (private repos needed from Week 3 on)"
+        },
+        {
+          "id": "week-00:4:6e7a4c4b",
+          "weekId": "week-00",
+          "index": 4,
+          "text": "JetBrains student license (GoLand or IntelliJ Ultimate + Go plugin)"
+        },
+        {
+          "id": "week-00:5:494633d0",
+          "weekId": "week-00",
+          "index": 5,
+          "text": "Optional: Namecheap"
+        },
+        {
+          "id": "week-00:6:98b92980",
+          "weekId": "week-00",
+          "index": 6,
+          "text": "Git (username, commit email, SSH to GitHub)"
+        },
+        {
+          "id": "week-00:7:0e403ba4",
+          "weekId": "week-00",
+          "index": 7,
+          "text": "VS Code (or editor of choice) + GoLand"
+        },
+        {
+          "id": "week-00:8:4b187c74",
+          "weekId": "week-00",
+          "index": 8,
+          "text": "Docker (with buildx), AWS CLI, gcloud, Ansible"
+        },
+        {
+          "id": "week-00:9:b6ba6a46",
+          "weekId": "week-00",
+          "index": 9,
+          "text": "kubectl, kops, minikube (+ hypervisor), kind"
+        },
+        {
+          "id": "week-00:10:6cd9a0e4",
+          "weekId": "week-00",
+          "index": 10,
+          "text": "Go — verify with a hello-world build"
+        },
+        {
+          "id": "week-00:11:1edb4412",
+          "weekId": "week-00",
+          "index": 11,
+          "text": "PostgreSQL locally (used in Weeks 4–5)"
+        },
+        {
+          "id": "week-00:12:530fed9c",
+          "weekId": "week-00",
+          "index": 12,
+          "text": "Terraform + Packer (needed Week 2; not in the A00 list but required immediately after)"
+        },
+        {
+          "id": "week-00:13:d1e54455",
+          "weekId": "week-00",
+          "index": 13,
+          "text": "A domain you control (avoid `.dev` — HSTS-preloaded, complicates Let's Encrypt HTTP work). Prior course used `manavhirey.me`."
+        },
+        {
+          "id": "week-00:14:6b177a39",
+          "weekId": "week-00",
+          "index": 14,
+          "text": "Route 53 public hosted zone for the domain; point the registrar's nameservers at the Route 53 ones. Verify with `dig NS yourdomain.tld`."
+        }
+      ],
+      "dod": "`docker run hello-world`, `terraform version`, `packer version`, `kubectl version --client`, `go version`, `aws sts get-caller-identity`, and `dig NS yourdomain.tld` (returning Route 53 nameservers) all succeed."
+    },
+    {
+      "id": "week-01",
+      "title": "Week 1 — Linux Containers & Go",
+      "file": "week-01-containers-and-go.md",
+      "order": 1,
+      "items": [
+        {
+          "id": "week-01:0:8b919814",
+          "weekId": "week-01",
+          "index": 0,
+          "text": "Enable **AWS Organizations** in your AWS account (it becomes `root`); create `dev` and `prod` member accounts (Gmail aliases work: `manavhirey+dev@gmail.com`, `+prod`)"
+        },
+        {
+          "id": "week-01:1:d73c8525",
+          "weekId": "week-01",
+          "index": 1,
+          "text": "AWS CLI profiles `dev` and `prod`, region `us-east-1` — deliberately **no `default` profile** (prevents accidental targeting)"
+        },
+        {
+          "id": "week-01:2:d9a4a2fd",
+          "weekId": "week-01",
+          "index": 2,
+          "text": "Create the GitHub org (prior: `alphacloudcomputing`; spec naming: `cyse7125-su24-teamNN`) on the Teams plan"
+        },
+        {
+          "id": "week-01:3:21f3dbb8",
+          "weekId": "week-01",
+          "index": 3,
+          "text": "Create IAM user `ghactions` (programmatic access only) in the root account — CI will use it to build AMIs"
+        }
+      ],
+      "dod": "You can explain namespaces vs cgroups without notes; a Go toolchain project compiles and runs; `aws sts get-caller-identity --profile dev` and `--profile prod` both work; the org exists with you as owner."
+    },
+    {
+      "id": "week-02",
+      "title": "Week 2 — Build Your CI/CD Platform: Packer, Jenkins, Terraform",
+      "file": "week-02-cicd-platform.md",
+      "order": 2,
+      "items": [
+        {
+          "id": "week-02:0:6d9593c9",
+          "weekId": "week-02",
+          "index": 0,
+          "text": "Packer template: source `Ubuntu 24.04 LTS`, builds a **private** AMI in the root account's default VPC, named so Terraform can filter it (prior: `jenkins-ami_<timestamp>`)"
+        },
+        {
+          "id": "week-02:1:9620d8c5",
+          "weekId": "week-02",
+          "index": 1,
+          "text": "AMI bakes: Jenkins + all plugins, Docker + buildx, nginx or Caddy, certbot"
+        },
+        {
+          "id": "week-02:2:6dc93b52",
+          "weekId": "week-02",
+          "index": 2,
+          "text": "GitHub Actions: `packer validate` as a required PR status check; AMI build on **merge to main** (the old repo built on PR — fix this); branch protection on `main`"
+        },
+        {
+          "id": "week-02:3:ff121e54",
+          "weekId": "week-02",
+          "index": 3,
+          "text": "JCasC template + Job DSL seed job structure in place (jobs themselves come in Weeks 3–5)"
+        },
+        {
+          "id": "week-02:4:a0896850",
+          "weekId": "week-02",
+          "index": 4,
+          "text": "Allocate an Elastic IP, tagged"
+        },
+        {
+          "id": "week-02:5:23ba331a",
+          "weekId": "week-02",
+          "index": 5,
+          "text": "Route 53 A record `jenkins.yourdomain.tld` → EIP, TTL 60"
+        },
+        {
+          "id": "week-02:6:159d0170",
+          "weekId": "week-02",
+          "index": 6,
+          "text": "Terraform builds its own VPC/subnets/IGW/route table/SG (not the default VPC), launches the EC2 instance from the latest `jenkins-ami_*` (data source: `owners=[\"self\"]`, `most_recent=true`), associates the EIP"
+        },
+        {
+          "id": "week-02:7:abae7689",
+          "weekId": "week-02",
+          "index": 7,
+          "text": "Reverse proxy + Let's Encrypt cert obtained on boot; Jenkins reachable at `https://jenkins.yourdomain.tld`"
+        },
+        {
+          "id": "week-02:8:32003582",
+          "weekId": "week-02",
+          "index": 8,
+          "text": "`terraform destroy` terminates the instance and **disassociates but does not release** the EIP"
+        },
+        {
+          "id": "week-02:9:76e71013",
+          "weekId": "week-02",
+          "index": 9,
+          "text": "`pr-check` workflow validates Terraform on every PR"
+        },
+        {
+          "id": "week-02:10:b7027378",
+          "weekId": "week-02",
+          "index": 10,
+          "text": "Credentials via AWS profile only — no keys as Terraform variables, `*.tfvars` gitignored (the old repo committed live keys; don't repeat this)"
+        }
+      ],
+      "dod": "From clean checkouts: a push to `ami-jenkins` main produces a new private AMI; `terraform apply` in `infra-jenkins` gives you a working HTTPS Jenkins at your subdomain in ~5 minutes; `terraform destroy` tears it down cleanly; apply again and the same URL works (EIP survived). All merges went through PRs with passing checks."
+    },
+    {
+      "id": "week-03",
+      "title": "Week 3 — Kubernetes Fundamentals: Pods, Probes, Config",
+      "file": "week-03-kubernetes-fundamentals.md",
+      "order": 3,
+      "items": [
+        {
+          "id": "week-03:0:fb30c5e9",
+          "weekId": "week-03",
+          "index": 0,
+          "text": "Caddy serving on **8080/HTTP**, Caddyfile + HTML baked into the image (prior repo has this working)"
+        },
+        {
+          "id": "week-03:1:c79b72d3",
+          "weekId": "week-03",
+          "index": 1,
+          "text": "Helm chart defining the Pod with **startup, readiness, and liveness probes** (HTTP-based; liveness must fail on crash/OOM, readiness when not serving)"
+        },
+        {
+          "id": "week-03:2:bdd40de6",
+          "weekId": "week-03",
+          "index": 2,
+          "text": "All config via **ConfigMap + Secret** — no hardcoded values in the chart"
+        },
+        {
+          "id": "week-03:3:56aa7463",
+          "weekId": "week-03",
+          "index": 3,
+          "text": "Image pulled from a **private** Docker Hub repo (imagePullSecret in the chart)"
+        },
+        {
+          "id": "week-03:4:4f092b68",
+          "weekId": "week-03",
+          "index": 4,
+          "text": "Jenkins job written in **Job DSL, baked into the Jenkins AMI**, building a **multi-platform** (amd64+arm64 buildx) image, triggered by a GitHub webhook"
+        },
+        {
+          "id": "week-03:5:fef8b836",
+          "weekId": "week-03",
+          "index": 5,
+          "text": "Deploy to minikube or kind and prove the probes work (kill Caddy → liveness restart; block the port → readiness removes endpoint)"
+        }
+      ],
+      "dod": "`helm install` on a fresh minikube brings the site up with all three probes green; a push to the repo triggers Jenkins → new multi-arch image in the private Docker Hub repo; nothing in the chart is hardcoded (values overridable at install time)."
+    },
+    {
+      "id": "week-04",
+      "title": "Week 4 — Helm Deep-Dive, Services, Storage",
+      "file": "week-04-helm-services-storage.md",
+      "order": 4,
+      "items": [
+        {
+          "id": "week-04:0:6138daf1",
+          "weekId": "week-04",
+          "index": 0,
+          "text": "Move **all PR status checks to Jenkins jobs** across every repo"
+        },
+        {
+          "id": "week-04:1:fd0d5f41",
+          "weekId": "week-04",
+          "index": 1,
+          "text": "**Conventional Commits enforcement** as a required status check on all repos (Conventional Commits Jenkins plugin) — non-conforming messages block merge"
+        },
+        {
+          "id": "week-04:2:e756741d",
+          "weekId": "week-04",
+          "index": 2,
+          "text": "`webapp-cve-processor` (org + fork, README, .gitignore) — app work next week"
+        },
+        {
+          "id": "week-04:3:6997dff9",
+          "weekId": "week-04",
+          "index": 3,
+          "text": "`helm-webapp-cve-processor` — the chart repo"
+        },
+        {
+          "id": "week-04:4:b5ca70e7",
+          "weekId": "week-04",
+          "index": 4,
+          "text": "On PR: required check running `helm lint` + `helm template`; either failing blocks merge"
+        },
+        {
+          "id": "week-04:5:f970e0cd",
+          "weekId": "week-04",
+          "index": 5,
+          "text": "On merge: job clones, runs **semantic-release** to compute the next version, updates `Chart.yaml`, zips as `<chart>-<version>.zip`, publishes a **GitHub release**"
+        },
+        {
+          "id": "week-04:6:c88c48a8",
+          "weekId": "week-04",
+          "index": 6,
+          "text": "Database `cve`, schema `cve` — **no objects in `public`** (the old repo used `cve_db`; the spec is strict here)"
+        },
+        {
+          "id": "week-04:7:6e8662a6",
+          "weekId": "week-04",
+          "index": 7,
+          "text": "Flyway (or Liquibase) migration files for all DDL; idempotent (re-run = no-op); output to stdout"
+        },
+        {
+          "id": "week-04:8:b4ad01fa",
+          "weekId": "week-04",
+          "index": 8,
+          "text": "Migration container image + its own Jenkins DSL job: private Docker Hub repo, webhook-triggered, **semver tags**, all config/credentials via env vars"
+        },
+        {
+          "id": "week-04:9:4c357ddf",
+          "weekId": "week-04",
+          "index": 9,
+          "text": "Wire the migration to run as an **init container** in the chart"
+        }
+      ],
+      "dod": "A deliberately bad commit message is blocked by Jenkins on every repo; merging a chart change auto-publishes a versioned GitHub release; the migration image stands up the `cve` schema on an empty local Postgres with zero manual steps, twice in a row."
+    },
+    {
+      "id": "week-05",
+      "title": "Week 5 — The CVE Processor: Go, Postgres JSON, Multi-Arch CI",
+      "file": "week-05-cve-processor.md",
+      "order": 5,
+      "items": [
+        {
+          "id": "week-05:0:b2240c04",
+          "weekId": "week-05",
+          "index": 0,
+          "text": "Download the CVE list zip and process **all JSON files in all directories**"
+        },
+        {
+          "id": "week-05:1:4594fd42",
+          "weekId": "week-05",
+          "index": 1,
+          "text": "Store CVEs in Postgres using the JSON type, proper indexes on the JSON column"
+        },
+        {
+          "id": "week-05:2:9a93d282",
+          "weekId": "week-05",
+          "index": 2,
+          "text": "Versioning queryable per the `cveMetadata` fields; handle duplicates"
+        },
+        {
+          "id": "week-05:3:015c5e50",
+          "weekId": "week-05",
+          "index": 3,
+          "text": "No API/UI; the app may exit when done (it's a batch job)"
+        },
+        {
+          "id": "week-05:4:86a863c8",
+          "weekId": "week-05",
+          "index": 4,
+          "text": "DB connection fully via env/config — **not hardcoded `localhost`** like the old version (it moves to EKS in Week 7)"
+        },
+        {
+          "id": "week-05:5:f2b0c361",
+          "weekId": "week-05",
+          "index": 5,
+          "text": "App image Jenkins DSL job (baked into the AMI): private Docker Hub repo, webhook trigger, multi-platform, **semver tags** computed from Conventional Commits (reuse the old Jenkinsfile's version-bump logic)"
+        },
+        {
+          "id": "week-05:6:2af83fc5",
+          "weekId": "week-05",
+          "index": 6,
+          "text": "Postgres runs locally on your machine; the app runs as a container **inside minikube/kind**, with the Flyway init container running the migration first"
+        }
+      ],
+      "dod": "`helm install` on kind: init container migrates the empty DB, the app container processes the full CVE list into `cve.cve`-schema tables, exits cleanly; re-running is a no-op for the migration and duplicate-safe for the data; you can write a SQL query returning all versions of one CVE ordered by `dateUpdated`."
+    },
+    {
+      "id": "week-06",
+      "title": "Week 6 — Amazon EKS with Terraform",
+      "file": "week-06-eks.md",
+      "order": 6,
+      "items": [
+        {
+          "id": "week-06:0:523e040c",
+          "weekId": "week-06",
+          "index": 0,
+          "text": "Jenkins PR checks: `terraform fmt -check` **and** `terraform validate` — formatting failures block merge"
+        },
+        {
+          "id": "week-06:1:13c3f28b",
+          "weekId": "week-06",
+          "index": 1,
+          "text": "VPC; **3 public + 3 private subnets across 3 AZs**; security group"
+        },
+        {
+          "id": "week-06:2:0a8cea26",
+          "weekId": "week-06",
+          "index": 2,
+          "text": "Symmetric key for EKS secrets envelope encryption; symmetric key for EBS volumes"
+        },
+        {
+          "id": "week-06:3:77924c0a",
+          "weekId": "week-06",
+          "index": 3,
+          "text": "Cluster service role; node group role; EBS CSI driver role; **IAM OIDC provider** — all in Terraform"
+        },
+        {
+          "id": "week-06:4:e9ce68ab",
+          "weekId": "week-06",
+          "index": 4,
+          "text": "Kubernetes **1.29** (or current at time of redo); auth mode `EKS API and ConfigMap`"
+        },
+        {
+          "id": "week-06:5:b2b8d512",
+          "weekId": "week-06",
+          "index": 5,
+          "text": "Secrets envelope-encrypted with your KMS key; IPv4; endpoint **public and private**"
+        },
+        {
+          "id": "week-06:6:992ea7cf",
+          "weekId": "week-06",
+          "index": 6,
+          "text": "Control plane logging: API server, Audit, Authenticator, Controller manager, Scheduler"
+        },
+        {
+          "id": "week-06:7:f3d6aaa0",
+          "weekId": "week-06",
+          "index": 7,
+          "text": "Add-ons at latest versions: **Pod Identity Agent**, **EBS CSI driver**"
+        },
+        {
+          "id": "week-06:8:28d93cd0",
+          "weekId": "week-06",
+          "index": 8,
+          "text": "AL2_x86_64, On-Demand, c3.large; desired 3 / min 3 / max 6; max unavailable 1"
+        }
+      ],
+      "dod": "`terraform apply` from nothing → `kubectl get nodes` shows 3 Ready nodes across 3 AZs; a test PVC binds via the EBS CSI driver; control-plane logs appear in CloudWatch; `terraform destroy` leaves nothing orphaned (check EC2, EBS, ENIs, NAT gateways). Deploy the Week 3 static-site chart to it as a smoke test."
+    },
+    {
+      "id": "week-07",
+      "title": "Week 7 — Streaming: Kafka on EKS",
+      "file": "week-07-kafka.md",
+      "order": 7,
+      "items": [
+        {
+          "id": "week-07:0:bcbd8402",
+          "weekId": "week-07",
+          "index": 0,
+          "text": "All Kubernetes **namespaces created via the Terraform Kubernetes provider**"
+        },
+        {
+          "id": "week-07:1:02056e73",
+          "weekId": "week-07",
+          "index": 1,
+          "text": "**Kafka installed during bootstrap via the Terraform Helm provider** — Bitnami chart recommended; customize values for HA (3 replicas, appropriate storage) rather than accepting defaults"
+        },
+        {
+          "id": "week-07:2:245c3f79",
+          "weekId": "week-07",
+          "index": 2,
+          "text": "Write the **Kafka configuration decisions doc** (PDF deliverable in the original course): replication factor, partitions, storage, listeners — and *why*"
+        },
+        {
+          "id": "week-07:3:39015f1f",
+          "weekId": "week-07",
+          "index": 3,
+          "text": "Publishes every CVE record to Kafka topic **`cve`** instead of writing to Postgres"
+        },
+        {
+          "id": "week-07:4:c26dc5fc",
+          "weekId": "week-07",
+          "index": 4,
+          "text": "**Remove the DB init container** from the Processor's pod spec (the DB moves to the consumer side)"
+        },
+        {
+          "id": "week-07:5:3f02b7b8",
+          "weekId": "week-07",
+          "index": 5,
+          "text": "Still batch semantics: process all JSON files, exit when done; runs as a Kubernetes **Job** on EKS"
+        }
+      ],
+      "dod": "Fresh `terraform apply` yields: cluster + namespaces + HA Kafka, no manual steps. Running the Processor Job publishes the full CVE list to topic `cve` — verify with a console consumer. Kill a Kafka broker pod; the cluster stays available."
+    },
+    {
+      "id": "week-08",
+      "title": "Week 8 — The CVE Consumer (+ eBPF Detour)",
+      "file": "week-08-consumer-and-ebpf.md",
+      "order": 8,
+      "items": [
+        {
+          "id": "week-08:0:c571bdb5",
+          "weekId": "week-08",
+          "index": 0,
+          "text": "`webapp-cve-consumer` (org + fork, README, .gitignore) and `helm-webapp-cve-consumer`"
+        },
+        {
+          "id": "week-08:1:da6f6ca0",
+          "weekId": "week-08",
+          "index": 1,
+          "text": "Chart CI/CD: `helm lint`/`helm template` PR checks; semantic-release → versioned zip → GitHub release on merge"
+        },
+        {
+          "id": "week-08:2:1649b8f8",
+          "weekId": "week-08",
+          "index": 2,
+          "text": "Consumer + migration images: Jenkins DSL jobs, private Docker Hub, webhooks, multi-platform, semver tags"
+        },
+        {
+          "id": "week-08:3:8d7e5ca3",
+          "weekId": "week-08",
+          "index": 3,
+          "text": "Consumes topic `cve`; stores to Postgres JSONB with indexes; versioning per `cveMetadata` (same model as Week 5)"
+        },
+        {
+          "id": "week-08:4:95fcd89b",
+          "weekId": "week-08",
+          "index": 4,
+          "text": "Duplicate detection + logging; keeps running on empty topic; no API/UI"
+        },
+        {
+          "id": "week-08:5:050905ad",
+          "weekId": "week-08",
+          "index": 5,
+          "text": "DB `cve` / schema `cve`; Flyway migrations via **init container**, idempotent, env-var-configured"
+        },
+        {
+          "id": "week-08:6:9d37ffb5",
+          "weekId": "week-08",
+          "index": 6,
+          "text": "**Deployment**, ≥1 replica, in its own namespace"
+        },
+        {
+          "id": "week-08:7:545f4fc0",
+          "weekId": "week-08",
+          "index": 7,
+          "text": "Readiness + liveness probes per the design above"
+        },
+        {
+          "id": "week-08:8:f56a3c44",
+          "weekId": "week-08",
+          "index": 8,
+          "text": "All config via ConfigMap/Secret — nothing hardcoded in app or chart"
+        },
+        {
+          "id": "week-08:9:9eb5e7bc",
+          "weekId": "week-08",
+          "index": 9,
+          "text": "Docs (original deliverables, worth writing as design notes): Deployment HA/resiliency rationale; what the liveness probe checks and why"
+        }
+      ],
+      "dod": "End-to-end on EKS: Processor Job publishes → consumer drains the topic into Postgres → re-running the Job produces only \"duplicate ignored\" logs. Delete the consumer pod mid-stream: it resumes without data loss or double-writes. Readiness goes red when you delete the topic; liveness stays green."
+    },
+    {
+      "id": "week-09",
+      "title": "Week 9 — Resource Hardening & Cluster Autoscaling",
+      "file": "week-09-hardening-autoscaling.md",
+      "order": 9,
+      "items": [
+        {
+          "id": "week-09:0:7a89e085",
+          "weekId": "week-09",
+          "index": 0,
+          "text": "Your own Helm chart for the **EKS Cluster Autoscaler**"
+        },
+        {
+          "id": "week-09:1:c3da20e8",
+          "weekId": "week-09",
+          "index": 1,
+          "text": "Deployed by the **Terraform bootstrap** into a dedicated namespace, automatically at cluster creation"
+        },
+        {
+          "id": "week-09:2:d26a7f08",
+          "weekId": "week-09",
+          "index": 2,
+          "text": "**Mirror all autoscaler images to your Docker Hub org**, one repo per image (no direct pulls from upstream registries)"
+        },
+        {
+          "id": "week-09:3:a9ea746c",
+          "weekId": "week-09",
+          "index": 3,
+          "text": "CPU **and** memory requests + limits on every workload (yours, Kafka, Postgres, autoscaler)"
+        },
+        {
+          "id": "week-09:4:73bdb909",
+          "weekId": "week-09",
+          "index": 4,
+          "text": "**LimitRange** in every namespace: default CPU + memory requests/limits"
+        },
+        {
+          "id": "week-09:5:0e8a312d",
+          "weekId": "week-09",
+          "index": 5,
+          "text": "Replicas spread across zones via pod affinity with topology key `topology.kubernetes.io/zone`"
+        },
+        {
+          "id": "week-09:6:54fcfbb1",
+          "weekId": "week-09",
+          "index": 6,
+          "text": "**NetworkPolicies**: only the consumer (and migration job) can reach Postgres; verify other pods are blocked"
+        }
+      ],
+      "dod": "Scale a Deployment beyond current capacity → autoscaler adds a node (watch its logs) → scale down → node drains away within ~10 min. A pod with no resources block gets namespace defaults. `kubectl exec` from a non-consumer pod can't reach Postgres; the consumer can. Consumer replicas land in different zones."
+    },
+    {
+      "id": "week-10",
+      "title": "Week 10 — Extending Kubernetes: The CVE Operator",
+      "file": "week-10-operators.md",
+      "order": 10,
+      "items": [
+        {
+          "id": "week-10:0:dda532ed",
+          "weekId": "week-10",
+          "index": 0,
+          "text": "Spec: `url` (e.g. `https://github.com/CVEProject/cvelistV5/releases`), `monitorFrom` (`now` | a date — process releases from that day onward)"
+        },
+        {
+          "id": "week-10:1:a143ab4c",
+          "weekId": "week-10",
+          "index": 1,
+          "text": "Controller checks releases (hourly), creates a `GitHubRelease` CR per new release; already-processed releases ignored"
+        },
+        {
+          "id": "week-10:2:3df76d70",
+          "weekId": "week-10",
+          "index": 2,
+          "text": "Sets **finalizers** on the `GitHubRelease` CRs it creates"
+        },
+        {
+          "id": "week-10:3:ca170a36",
+          "weekId": "week-10",
+          "index": 3,
+          "text": "If a `GitHubRelease` CR is deleted, the monitor **re-creates it** (and its Job runs again)"
+        },
+        {
+          "id": "week-10:4:eaa90dc7",
+          "weekId": "week-10",
+          "index": 4,
+          "text": "Status: list of releases found, retrieval time (UTC), `monitorFrom` as UTC timestamp"
+        },
+        {
+          "id": "week-10:5:546e37b6",
+          "weekId": "week-10",
+          "index": 5,
+          "text": "Downloads only the release zip asset with **`delta`** in its name; ignores everything else"
+        },
+        {
+          "id": "week-10:6:b5a6e3ce",
+          "weekId": "week-10",
+          "index": 6,
+          "text": "Controller creates a Kubernetes **Job** to process the asset, passing the delta zip URL as a parameter"
+        },
+        {
+          "id": "week-10:7:9bfa3e2e",
+          "weekId": "week-10",
+          "index": 7,
+          "text": "Failed Jobs retried; once a Job succeeds it is **never relaunched** for that CR"
+        },
+        {
+          "id": "week-10:8:bc6a9822",
+          "weekId": "week-10",
+          "index": 8,
+          "text": "Operator namespace created by Terraform at bootstrap; resource requests/limits; affinity/anti-affinity; NetworkPolicies"
+        }
+      ],
+      "dod": "Apply a `GitHubReleasesMonitor` with `monitorFrom: now` → within the hour, new delta releases appear as `GitHubRelease` CRs with Jobs that feed the Kafka pipeline. Delete a `GitHubRelease` → it comes back and reprocesses. Kill a Job mid-run → it retries; after success it never runs again. `kubectl get githubreleasesmonitor -o yaml` shows a truthful status block."
+    },
+    {
+      "id": "week-11",
+      "title": "Week 11 — Observability & Service Mesh",
+      "file": "week-11-observability-mesh.md",
+      "order": 11,
+      "items": [
+        {
+          "id": "week-11:0:08ef763d",
+          "weekId": "week-11",
+          "index": 0,
+          "text": "EKS **control plane logs + container logs → CloudWatch**, configured at bootstrap"
+        },
+        {
+          "id": "week-11:1:1ecf482a",
+          "weekId": "week-11",
+          "index": 1,
+          "text": "**Fluent Bit** collects/forwards container logs; customize its config as needed"
+        },
+        {
+          "id": "week-11:2:64d65e71",
+          "weekId": "week-11",
+          "index": 2,
+          "text": "**Every log stream in JSON** — your apps, Kafka, Postgres, and Istio (default Istio does *not* log JSON; set it in your custom profile)"
+        },
+        {
+          "id": "week-11:3:47c67426",
+          "weekId": "week-11",
+          "index": 3,
+          "text": "IAM for log shipping follows **least privilege** (IRSA role scoped to the log groups)"
+        },
+        {
+          "id": "week-11:4:a3ec6555",
+          "weekId": "week-11",
+          "index": 4,
+          "text": "Prometheus on the cluster collecting: Kubernetes cluster/state metrics, **Kafka metrics**, **Postgres metrics via `postgres_exporter`** (prometheus-community)"
+        },
+        {
+          "id": "week-11:5:09b7c4c2",
+          "weekId": "week-11",
+          "index": 5,
+          "text": "Grafana with dashboards for all three (community dashboards allowed — e.g. [#6417](https://grafana.com/grafana/dashboards/6417) for cluster overview)"
+        },
+        {
+          "id": "week-11:6:b094abc8",
+          "weekId": "week-11",
+          "index": 6,
+          "text": "Latest Istio installed **by the bootstrap Terraform** with your **custom profile**, committed to the bootstrap repo"
+        },
+        {
+          "id": "week-11:7:0711f2af",
+          "weekId": "week-11",
+          "index": 7,
+          "text": "All microservices communicate over the mesh (sidecar injection on your namespaces); Postgres may be excluded"
+        }
+      ],
+      "dod": "One `terraform apply` yields a cluster where: `kubectl logs` on any pod shows JSON; the same logs are queryable in CloudWatch Logs Insights; Grafana graphs Kafka consumer lag and Postgres connections while the pipeline runs; `istioctl proxy-status` shows your workloads meshed; mTLS verified between processor→Kafka→consumer hops."
+    },
+    {
+      "id": "week-12",
+      "title": "Week 12 — Kubernetes Security & Pod Autoscaling (Capstone)",
+      "file": "week-12-security-autoscaling.md",
+      "order": 12,
+      "items": [
+        {
+          "id": "week-12:0:d53c2f92",
+          "weekId": "week-12",
+          "index": 0,
+          "text": "A **unique ServiceAccount per workload**"
+        },
+        {
+          "id": "week-12:1:69f64c37",
+          "weekId": "week-12",
+          "index": 1,
+          "text": "Role or ClusterRole + matching binding, scoped to exactly what each workload needs (the operator needs real API access; the consumer needs none)"
+        },
+        {
+          "id": "week-12:2:539de155",
+          "weekId": "week-12",
+          "index": 2,
+          "text": "`automountServiceAccountToken: false` for workloads that don't talk to the API server"
+        },
+        {
+          "id": "week-12:3:46f1b8d4",
+          "weekId": "week-12",
+          "index": 3,
+          "text": "**Metrics server installed by the bootstrap Terraform**"
+        },
+        {
+          "id": "week-12:4:bd4bb5d7",
+          "weekId": "week-12",
+          "index": 4,
+          "text": "**Every Deployment gets an HPA and a PDB** (consumer, autoscaler, operator, Grafana, etc.) — pick sane targets (e.g. CPU 70%) and budgets that respect replica counts"
+        }
+      ],
+      "dod": "`kubectl auth can-i --list --as=system:serviceaccount:<ns>:<sa>` shows minimal permissions per workload; `kubectl top nodes/pods` works; load on the consumer (a big Processor run) scales replicas via HPA and node count via the Cluster Autoscaler together; `kubectl drain` on a node respects PDBs."
+    }
+  ],
+  "extras": [
+    {
+      "file": "README.md",
+      "title": "Course README"
+    },
+    {
+      "file": "reference.md",
+      "title": "Worked Repos Reference"
+    }
+  ]
+}
