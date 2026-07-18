@@ -85,4 +85,23 @@ describe('mergeManifest', () => {
     expect(orphans.map(o => o.text)).toEqual(['VPC with subnets'])
     expect(manifest.weeks[0].items[0].id).not.toBe(prev.weeks[0].items[0].id)
   })
+  it('never mints duplicate ids when two items share text and hash', () => {
+    const prevMd = `# Week 1
+
+- [ ] alpha
+- [ ] foo
+`
+    const nextMd = `# Week 1
+
+- [ ] foo
+- [ ] foo
+`
+    const prev: Manifest = { generatedAt: 't', weeks: [parseWeekFile('week-01-x.md', prevMd, 1)], extras: [] }
+    const next: Manifest = { generatedAt: 't', weeks: [parseWeekFile('week-01-x.md', nextMd, 1)], extras: [] }
+    const { manifest } = mergeManifest(prev, next)
+    const ids = manifest.weeks[0].items.map(i => i.id)
+    expect(ids[0]).not.toBe(ids[1])
+    expect(new Set(ids).size).toBe(2)
+    expect(ids).toContain(prev.weeks[0].items[1].id)
+  })
 })

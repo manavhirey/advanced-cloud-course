@@ -57,6 +57,7 @@ export function mergeManifest(prev: Manifest | null, next: Manifest): { manifest
     const prevWeek = prev.weeks.find(w => w.id === week.id)
     if (!prevWeek) continue
     const claimed = new Set<string>()
+    const assigned = new Set<string>()
     for (const item of week.items) {
       const h = item.id.split(':')[2]
       const match = prevWeek.items.find(p => p.id.split(':')[2] === h && !claimed.has(p.id))
@@ -64,6 +65,16 @@ export function mergeManifest(prev: Manifest | null, next: Manifest): { manifest
         claimed.add(match.id)
         item.id = match.id
       }
+      if (assigned.has(item.id)) {
+        let n = item.index
+        let candidate: string
+        do {
+          n += 1
+          candidate = `${item.weekId}:${n}:${h}`
+        } while (assigned.has(candidate))
+        item.id = candidate
+      }
+      assigned.add(item.id)
     }
     const nextIds = new Set(week.items.map(i => i.id))
     for (const p of prevWeek.items) if (!nextIds.has(p.id)) orphans.push(p)
