@@ -24,7 +24,7 @@ export default function WeekContent({ html }: { html: string }) {
   return (
     <article
       onClick={onClick}
-      className="prose prose-neutral max-w-none dark:prose-invert prose-li:my-1"
+      className="prose-console"
       dangerouslySetInnerHTML={{ __html: html }}
     />
   )

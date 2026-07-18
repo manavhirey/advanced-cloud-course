@@ -2,8 +2,12 @@ export default function CorruptBanner({ corrupt }: { corrupt: { progress: boolea
   const files = [corrupt.progress && 'data/progress.json', corrupt.sessions && 'data/sessions.json'].filter(Boolean)
   if (files.length === 0) return null
   return (
-    <div className="mb-6 rounded border border-red-400 bg-red-50 p-3 text-sm text-red-800 dark:bg-red-950 dark:text-red-200">
-      {files.join(' and ')} unreadable — fix or delete the file(s). Saving is disabled for corrupt files.
+    <div className="console-panel mb-8 border-l-2 border-l-crit p-4">
+      <p className="eyebrow text-crit">data error</p>
+      <p className="mt-1.5 text-sm text-foam">
+        <code className="font-mono text-[13px]">{files.join(', ')}</code> can’t be read. Fix or delete the file — saving
+        stays off until it parses.
+      </p>
     </div>
   )
 }

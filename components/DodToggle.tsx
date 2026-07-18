@@ -19,8 +19,8 @@ export default function DodToggle({ weekId, done }: { weekId: string; done: bool
   }
 
   return (
-    <label className="flex items-center gap-2 text-sm font-medium">
-      <input type="checkbox" checked={done} onChange={onChange} />
+    <label className="flex cursor-pointer items-center gap-2.5 text-sm font-medium text-foam">
+      <input type="checkbox" checked={done} onChange={onChange} className="h-4 w-4 cursor-pointer" />
       Definition of done met
     </label>
   )

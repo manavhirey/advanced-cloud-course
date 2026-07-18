@@ -7,5 +7,10 @@ export const dynamic = 'force-dynamic'
 export default function ReferencePage() {
   const md = readContent('reference.md')
   if (!md) return <SetupNotice />
-  return <article className="prose prose-neutral max-w-none dark:prose-invert" dangerouslySetInnerHTML={{ __html: renderMarkdown(md) }} />
+  return (
+    <div>
+      <p className="eyebrow mb-6">reference · prior worked repos</p>
+      <article className="prose-console" dangerouslySetInnerHTML={{ __html: renderMarkdown(md) }} />
+    </div>
+  )
 }

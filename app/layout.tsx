@@ -1,21 +1,32 @@
 import type { Metadata } from 'next'
+import { IBM_Plex_Sans, JetBrains_Mono } from 'next/font/google'
 import Link from 'next/link'
 import './globals.css'
 
-export const metadata: Metadata = { title: 'Advanced Cloud Course' }
+const mono = JetBrains_Mono({ subsets: ['latin'], variable: '--font-mono' })
+const sans = IBM_Plex_Sans({ subsets: ['latin'], weight: ['400', '500', '600'], variable: '--font-sans' })
+
+export const metadata: Metadata = {
+  title: 'advanced-cloud-course',
+  description: 'Control plane for the self-paced Advanced Cloud Computing course',
+}
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
-      <body className="min-h-screen bg-white text-neutral-900 dark:bg-neutral-950 dark:text-neutral-100">
-        <nav className="border-b border-neutral-200 dark:border-neutral-800">
-          <div className="mx-auto flex max-w-4xl items-center gap-6 px-4 py-3">
-            <Link href="/" className="font-semibold">☁️ Advanced Cloud Course</Link>
-            <Link href="/course" className="text-sm text-neutral-500 hover:text-neutral-900 dark:hover:text-neutral-100">Course map</Link>
-            <Link href="/reference" className="text-sm text-neutral-500 hover:text-neutral-900 dark:hover:text-neutral-100">Reference</Link>
+    <html lang="en" className={`${mono.variable} ${sans.variable}`}>
+      <body className="min-h-screen">
+        <nav className="sticky top-0 z-10 border-b border-hairline bg-abyss/85 backdrop-blur">
+          <div className="mx-auto flex max-w-4xl items-baseline gap-6 px-4 py-3">
+            <Link href="/" className="font-mono text-sm font-semibold tracking-tight">
+              <span className="text-accent">⎈</span> advanced-cloud-course
+            </Link>
+            <div className="ml-auto flex items-baseline gap-5">
+              <Link href="/course" className="font-mono text-xs text-fog transition-colors hover:text-foam">course map</Link>
+              <Link href="/reference" className="font-mono text-xs text-fog transition-colors hover:text-foam">reference</Link>
+            </div>
           </div>
         </nav>
-        <main className="mx-auto max-w-4xl px-4 py-8">{children}</main>
+        <main className="mx-auto max-w-4xl px-4 py-10">{children}</main>
       </body>
     </html>
   )

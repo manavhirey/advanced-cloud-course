@@ -8,5 +8,10 @@ export default function CoursePage() {
   const md = readContent('README.md')
   if (!md) return <SetupNotice />
   const html = rewriteCourseLinks(renderMarkdown(md))
-  return <article className="prose prose-neutral max-w-none dark:prose-invert" dangerouslySetInnerHTML={{ __html: html }} />
+  return (
+    <div>
+      <p className="eyebrow mb-6">course map</p>
+      <article className="prose-console" dangerouslySetInnerHTML={{ __html: html }} />
+    </div>
+  )
 }

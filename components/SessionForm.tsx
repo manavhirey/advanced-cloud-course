@@ -2,6 +2,9 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 
+const field =
+  'block w-full rounded-md border border-hairline bg-abyss px-2.5 py-1.5 text-sm text-foam placeholder:text-fog/60 focus:border-accent focus:outline-none'
+
 export default function SessionForm({ weeks }: { weeks: { id: string; title: string }[] }) {
   const router = useRouter()
   const [minutes, setMinutes] = useState('30')
@@ -27,29 +30,30 @@ export default function SessionForm({ weeks }: { weeks: { id: string; title: str
   }
 
   return (
-    <form onSubmit={submit} className="flex flex-wrap items-end gap-2">
-      <label className="text-sm">
-        Minutes
+    <form onSubmit={submit} className="flex flex-wrap items-end gap-2.5">
+      <label className="font-mono text-[11px] uppercase tracking-wider text-fog">
+        minutes
         <input type="number" min="1" value={minutes} onChange={e => setMinutes(e.target.value)}
-          className="mt-1 block w-24 rounded border border-neutral-300 bg-transparent px-2 py-1 dark:border-neutral-700" />
+          className={`${field} mt-1 w-24 font-mono tabular-nums`} />
       </label>
-      <label className="text-sm">
-        Week
-        <select value={weekId} onChange={e => setWeekId(e.target.value)}
-          className="mt-1 block rounded border border-neutral-300 bg-transparent px-2 py-1 dark:border-neutral-700 dark:bg-neutral-950">
+      <label className="font-mono text-[11px] uppercase tracking-wider text-fog">
+        week
+        <select value={weekId} onChange={e => setWeekId(e.target.value)} className={`${field} mt-1 w-44`}>
           <option value="">—</option>
           {weeks.map(w => <option key={w.id} value={w.id}>{w.title}</option>)}
         </select>
       </label>
-      <label className="text-sm">
-        Note
-        <input value={note} onChange={e => setNote(e.target.value)} placeholder="optional"
-          className="mt-1 block w-48 rounded border border-neutral-300 bg-transparent px-2 py-1 dark:border-neutral-700" />
+      <label className="min-w-40 flex-1 font-mono text-[11px] uppercase tracking-wider text-fog">
+        note
+        <input value={note} onChange={e => setNote(e.target.value)} placeholder="optional" className={`${field} mt-1`} />
       </label>
-      <button type="submit" className="rounded bg-emerald-600 px-3 py-1.5 text-sm text-white hover:bg-emerald-700">
+      <button
+        type="submit"
+        className="rounded-md bg-accent px-3.5 py-1.5 text-sm font-medium text-abyss transition-colors hover:bg-[#7AA2FF]"
+      >
         Log session
       </button>
-      {error && <p className="w-full text-sm text-red-600">{error}</p>}
+      {error && <p className="w-full text-sm text-crit">{error}</p>}
     </form>
   )
 }
