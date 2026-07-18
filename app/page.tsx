@@ -13,7 +13,7 @@ export default function Dashboard() {
   if (!manifest) return <SetupNotice />
 
   const totalItems = manifest.weeks.reduce((n, w) => n + w.items.length, 0)
-  const doneItems = Object.keys(progress.items).length
+  const doneItems = manifest.weeks.reduce((n, w) => n + w.items.filter(i => progress.items[i.id]?.done).length, 0)
   const pct = totalItems > 0 ? Math.round((doneItems / totalItems) * 100) : 0
 
   const days = activeDays(progress, sessions)
